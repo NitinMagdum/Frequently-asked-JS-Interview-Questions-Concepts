@@ -36,6 +36,7 @@ The **_event loop_** facilitates this process; it constantly checks whether or n
 <p align="center">
   <img src="EventLoopVisualized.png" height="400" alt="EL Visualized"/>
 </p>
+
 <br>
 <br>
 
