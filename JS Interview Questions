@@ -1,0 +1,5 @@
+#JavaScript Interview Questions/Concepts
+
+######Do setTimeOut and setInterval always call the function associated with them?
+When calling setTimeout or setInterval, a timer thread in the browser starts counting down and when time up puts the callback function in JavaScript thread's execution stack.
+The callback function is not executed before other functions above it in the stack finishes. So if there are other time-consuming functions being executed when time up, the callback of setTimeout will not finish in time.
