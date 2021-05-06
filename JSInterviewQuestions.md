@@ -2,7 +2,7 @@
 
 ## Table of Contents  
 [What is event loop in JavaScript?](#Q1)  
-[Explain Closure with an example.](#Q2)
+[Explain Closure with an example.](#Q2)   
 [Do setTimeOut and setInterval always call the function associated with them?](#Q3)
 
 <a name="Q1"/>
@@ -40,11 +40,11 @@ The **_event loop_** facilitates this process; it constantly checks whether or n
 <br>
 
 <a name="Q2"/>
+
 ### Closure with an example.
 Suppose, you want to count the number of times user clicked a button on a webpage.
 For this, you are triggering a function on onclick event of button to update the count of the variable.
-<br>
-<br>
+
 `<button onclick="updateClickCount()">click me</button>`
 
 Now there could be many approaches like:
@@ -74,5 +74,7 @@ Now there could be many approaches like:
 <br>
 
 <a name="Q3"/>
+
 ### Do setTimeOut and setInterval always call the function associated with them?
+
 When calling `setTimeout` or `setInterval`, a timer thread in the browser starts counting down and when time up puts the callback function in JavaScript thread's execution stack. The callback function is not executed before other functions above it in the stack finishes. So if there are other time-consuming functions being executed when time up, the callback of `setTimeout` will not finish in time.
