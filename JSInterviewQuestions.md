@@ -2,8 +2,10 @@
 
 ## Table of Contents  
 [What is event loop in JavaScript?](#Q1)  
-[Explain Closure with an example.](#Q2)   
-[Do setTimeOut and setInterval always call the function associated with them?](#Q3)
+[Explain Closure with an example.](#Q2)  
+[What is Hoisting in JavaScript?](#Q3)   
+[Do setTimeOut and setInterval always call the function associated with them?](#Q4)   
+[null vs undefined](#Q5)
 
 <a name="Q1"/>
 
@@ -128,6 +130,24 @@ var updateClickCount = (function(){
 
 <a name="Q3"/>
 
+### What is hoisting in JavaScript?
+
+Hoisting in JS is a phenomenon of accessing variables even before they are initialized. Before JS starts executing a piece of code, it skims through the code and allocates memory for all the variables and functions. So, if somewhere in the code, a variable x is defined and initialized; JS allocates the memory and assigns it a keyword undefined before even it executes that code. Hence, when you try to access it before it is initialized, it'll be undefined.
+
+<br>
+<br>
+
+<a name="Q4"/>
+
 ### Do setTimeOut and setInterval always call the function associated with them?
 
 When calling `setTimeout` or `setInterval`, a timer thread in the browser starts counting down and when time up puts the callback function in JavaScript thread's execution stack. The callback function is not executed before other functions above it in the stack finishes. So if there are other time-consuming functions being executed when time up, the callback of `setTimeout` will not finish in time.
+
+<br>
+<br>
+
+<a name="Q5"/>
+
+### null vs undefined
+
+`null` is an assigned value. It means nothing. `undefined` typically means a variable has been declared but not defined yet.
