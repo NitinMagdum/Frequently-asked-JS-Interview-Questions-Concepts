@@ -4,8 +4,11 @@
 [What is event loop in JavaScript?](#Q1)  
 [Explain Closure with an example.](#Q2)  
 [What is Hoisting in JavaScript?](#Q3)   
-[Do setTimeOut and setInterval always call the function associated with them?](#Q4)   
-[null vs undefined](#Q5)
+[bind()](#Q4)    
+[call()](#Q5)    
+[apply()](#Q6)    
+[Do setTimeOut and setInterval always call the function associated with them?](#Q7)   
+[null vs undefined](#Q8)
 
 <a name="Q1"/>
 
@@ -139,6 +142,125 @@ Hoisting in JS is a phenomenon of accessing variables even before they are initi
 
 <a name="Q4"/>
 
+### bind()
+
+The ```bind()``` method returns a new function, when invoked, has its ```this``` set to a specific value.
+
+The following illustrates the syntax of the ```bind()``` method:
+```fn.bind(thisArg[, arg1[, arg2[, ...]]])```
+
+In this syntax, the ```bind()``` method returns a copy of the function ```fn``` with the specific ```this``` value (```thisArg```) and arguments (```arg1```, ```arg2```, …).
+
+> Unlike the call() and apply() methods, the bind() method doesn’t immediately execute the function. It just returns a new version of the function whose this sets to thisArg argument.
+
+#### Using ```bind()``` for function binding
+When you pass a method an object is to another function as a callback, the this is lost. For example:
+
+```
+let person = {
+    name: 'John Doe',
+    getName: function() {
+        console.log(this.name);
+    }
+};
+
+setTimeout(person.getName, 1000);
+```
+
+Output:
+```
+undefined
+```
+As you can see clearly from the output, the ```person.getName()``` returns ```undefined``` instead of 'John Doe'. This is because ```setTimeout()``` received the function ```person.getName``` separately from the ```person``` object.
+
+The statement:
+```
+setTimeout(person.getName, 1000);
+```
+can be rewritten as:
+```
+let f = person.getName;
+setTimeout(f, 1000); // lost person context
+```
+The this inside the ```setTimeout()``` function is set to the ```global``` object in non-strict mode and ```undefined``` in the strict mode. Therefore, when the callback ```person.getName``` is invoked, the ```name``` does not exist in the ```global``` object, it is set to ```undefined```.
+
+To fix this issue, use bind() to set the context:
+```
+let f = person.getName.bind(person);
+setTimeout(f, 1000);
+```
+In this code:
+
+First, bind the ```person.getName``` method to the ```person``` object.
+Second, pass the bound function ```f``` with this value set to the person object to the ```setTimeout()``` function.
+
+#### Using ```bind()``` to borrow methods from a different object
+Suppose you have a runner object that has the run() method:
+```
+let runner = {
+    name: 'Runner',
+    run: function(speed) {
+        console.log(this.name + ' runs at ' + speed + ' mph.');
+    }
+};
+```
+
+And the flyer object that has the fly() method:
+```
+let flyer = {
+    name: 'Flyer',
+    fly: function(speed) {
+        console.log(this.name + ' flies at ' + speed + ' mph.');
+    }
+};
+```
+
+If you want the flyer object to be able to run, you can use the bind() method to create the run() function with the this  sets to the flyer object:
+```
+let run = runner.run.bind(flyer, 20);
+run();
+```
+In this statement:
+
+Call the bind() method of the runner.run() method and pass in the flyer object as the first argument and 20 as the second argument.
+Invoke the run() function.
+
+Output:
+```
+Flyer runs at 20 mph.
+```
+The ability to borrow a method of an object without making a copy of that method and maintain it in two separate places is very powerful in JavaScript.
+
+#### Summary
+
+-> The bind() method creates a new function, when invoked, has the this sets to a provided value.
+
+-> The bind() method allows an object to borrow a method from another object without making a copy of that method. This is known as function borrowing in JavaScript.
+
+
+<br>
+<br>
+
+<a name="Q5"/>
+
+### call()
+
+When calling `setTimeout` or `setInterval`, a timer thread in the browser starts counting down and when time up puts the callback function in JavaScript thread's execution stack. The callback function is not executed before other functions above it in the stack finishes. So if there are other time-consuming functions being executed when time up, the callback of `setTimeout` will not finish in time.
+
+<br>
+<br>
+
+<a name="Q6"/>
+
+### apply()
+
+When calling `setTimeout` or `setInterval`, a timer thread in the browser starts counting down and when time up puts the callback function in JavaScript thread's execution stack. The callback function is not executed before other functions above it in the stack finishes. So if there are other time-consuming functions being executed when time up, the callback of `setTimeout` will not finish in time.
+
+<br>
+<br>
+
+<a name="Q7"/>
+
 ### Do setTimeOut and setInterval always call the function associated with them?
 
 When calling `setTimeout` or `setInterval`, a timer thread in the browser starts counting down and when time up puts the callback function in JavaScript thread's execution stack. The callback function is not executed before other functions above it in the stack finishes. So if there are other time-consuming functions being executed when time up, the callback of `setTimeout` will not finish in time.
@@ -146,7 +268,7 @@ When calling `setTimeout` or `setInterval`, a timer thread in the browser starts
 <br>
 <br>
 
-<a name="Q5"/>
+<a name="Q8"/>
 
 ### null vs undefined
 
