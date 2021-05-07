@@ -8,7 +8,9 @@
 [call()](#Q5)    
 [apply()](#Q6)    
 [Do setTimeOut and setInterval always call the function associated with them?](#Q7)   
-[null vs undefined](#Q8)
+[null vs undefined](#Q8)    
+[What are classes in JavaScript?](#Q9)    
+
 
 <a name="Q1"/>
 
@@ -136,6 +138,19 @@ var updateClickCount = (function(){
 ### What is hoisting in JavaScript?
 
 Hoisting in JS is a phenomenon of accessing variables even before they are initialized. Before JS starts executing a piece of code, it skims through the code and allocates memory for all the variables and functions. So, if somewhere in the code, a variable x is defined and initialized; JS allocates the memory and assigns it a keyword undefined before even it executes that code. Hence, when you try to access it before it is initialized, it'll be undefined.
+
+Hoisting is a JavaScript mechanism where variables and function declarations are moved to the top of their scope before code execution. Remember that JavaScript only hoists declarations, not initialisation.
+
+```
+console.log(message); //output : undefined
+var message = 'The variable Has been hoisted';
+```
+The above code looks like as below to the interpreter,
+```
+var message;
+console.log(message);
+message = 'The variable Has been hoisted';
+```
 
 <br>
 <br>
@@ -273,3 +288,35 @@ When calling `setTimeout` or `setInterval`, a timer thread in the browser starts
 ### null vs undefined
 
 `null` is an assigned value. It means nothing. `undefined` typically means a variable has been declared but not defined yet.
+
+<br>
+<br>
+
+<a name="Q9"/>
+
+### What are classes in JavaScript?
+
+Javascript classes are primarily syntactic sugar over JavaScript’s existing prototype-based inheritance. For example, the prototype based inheritance written in function expression as below:
+```
+function Bike(model,color) {
+    this.model = model;
+    this.color = color;
+}
+
+Bike.prototype.getDetails = function() {
+    return this.model + ' bike has' + this.color + ' color';
+};
+```
+Whereas ES6 classes can be defined as an alternative
+```
+class Bike{
+  constructor(color, model) {
+    this.color= color;
+    this.model= model;
+  }
+
+  getDetails() {
+    return this.model + ' bike has' + this.color + ' color';
+  }
+}
+```
