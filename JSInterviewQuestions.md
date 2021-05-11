@@ -287,7 +287,7 @@ When calling `setTimeout` or `setInterval`, a timer thread in the browser starts
 
 ### null vs undefined
 
-`null` is an assigned value. It means nothing. `undefined` typically means a variable has been declared but not defined yet.
+`null` is an assigned value. It means nothing. `undefined` typically means a variable has been declared but not defined yet. A variable initialized with ```undefined``` means that the variable has no value or object assigned to it while ```null``` means that the variable has been set to an object whose value is undefined.
 
 <br>
 <br>
