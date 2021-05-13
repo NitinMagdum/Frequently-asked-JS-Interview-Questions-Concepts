@@ -5,13 +5,23 @@
 [Explain Closure with an example.](#Q2)  
 [What is Hoisting in JavaScript?](#Q3)   
 [bind()](#Q4)    
-[call()](#Q5)    
+[call() and apply()](#Q5)    
 [apply()](#Q6)    
 [Do setTimeOut and setInterval always call the function associated with them?](#Q7)   
 [null vs undefined](#Q8)    
 [What are classes in JavaScript?](#Q9)   
 [Explain debouncing in JavaScript.](#Q10)   
-[Explain throttling in JavaScript.](#Q11)
+[Explain throttling in JavaScript.](#Q11)   
+[Implement a Binary Search Tree class in JavaScript.](#Q12)   
+[Implement a Stack class in JavaScript.](#Q13)    
+[Implement a Queue class in JavaScript.](#Q14)   
+[Implement a Linked List class in JavaScript.](#Q15)   
+[How do we compare two objects in JavaScript.](#Q16)   
+[Implement a function that returns the intersection of two arrays.](#Q17)   
+[Explain Prototype in JavaScript with an example.](#Q18)   
+[Explain Inheritance, Classical Inheritance, & Prototypal Inhertiance in JavaScript with an example.](#Q19)   
+[What are classes in JavaScript. Explain with an example.](#Q20)
+
 
 
 <a name="Q1"/>
@@ -260,9 +270,33 @@ The ability to borrow a method of an object without making a copy of that method
 
 <a name="Q5"/>
 
-### call()
+### call() and apply()
 
-When calling `setTimeout` or `setInterval`, a timer thread in the browser starts counting down and when time up puts the callback function in JavaScript thread's execution stack. The callback function is not executed before other functions above it in the stack finishes. So if there are other time-consuming functions being executed when time up, the callback of `setTimeout` will not finish in time.
+The call() method calls a function with a given this value and arguments provided individually.   
+The apply() method calls a function with a given this value and arguments provided in form of an array.
+
+```
+var pokemon = {
+    firstname: 'Pika',
+    lastname: 'Chu ',
+    getPokeName: function() {
+        var fullname = this.firstname + ' ' + this.lastname;
+        return fullname;
+    }
+};
+
+var pokemonName = function(snack, hobby) {
+    console.log(this.getPokeName() + ' loves ' + snack + ' and ' + hobby);
+};
+
+pokemonName.call(pokemon,'sushi', 'algorithms'); // Pika Chu  loves sushi and algorithms
+pokemonName.apply(pokemon,['sushi', 'algorithms']); // Pika Chu  loves sushi and algorithms
+```
+
+The main differences between ```bind()``` and ```call()```/```apply()``` is that the ```call()```/```apply()``` methods:
+  1. Accept additional parameters as well
+  2. Execute the function it was called upon right away.
+  3. Do not make a copy of the function it is being called on.
 
 <br>
 <br>
@@ -393,3 +427,642 @@ const returnedFunction = throttle(loggerFunc, 1000);
 
 window.addEventListener("resize",returnedFunction);
 ```
+
+<br>
+<br>
+
+<a name="Q12"/>
+
+### Implement a Binary Search Tree class in JavaScript.
+
+```
+// Node class
+class Node
+{
+	constructor(data)
+	{
+		this.data = data;
+		this.left = null;
+		this.right = null;
+	}
+}
+```
+
+```
+// Binary Search tree class
+class BinarySearchTree
+{
+    constructor()
+    {
+        // root of a binary seach tree
+        this.root = null;
+    }
+    
+    // helper method which creates a new node to be inserted and calls insertNode
+    insert(data)
+    {
+      // Creating a node and initailising with data
+      var newNode = new Node(data);
+
+      // root is null then node will be added to the tree and made root.
+      if(this.root === null)
+        this.root = newNode;
+      else
+        // find the correct position in the tree and add the node
+        this.insertNode(this.root, newNode);
+    }
+
+    // Method to insert a node in a tree it moves over the tree to find the location to insert a node with a given data
+    insertNode(node, newNode)
+    {
+      // if the data is less than the node data move left of the tree
+      if(newNode.data < node.data)
+      {
+        // if left is null insert node here
+        if(node.left === null)
+          node.left = newNode;
+        else
+          // if left is not null recur until null is found
+          this.insertNode(node.left, newNode);
+      }
+
+      // if the data is more than the node data move right of the tree
+      else
+      {
+        // if right is null insert node here
+        if(node.right === null)
+          node.right = newNode;
+        else
+          // if right is not null recur until null is found
+          this.insertNode(node.right,newNode);
+      }
+    }
+    
+    // search for a node with given data
+    search(node, data)
+    {
+      // if trees is empty return null
+      if(node === null)
+        return null;
+      // if data is less than node's data move left
+      else if(data < node.data)
+        return this.search(node.left, data);
+      // if data is less than node's data move left
+      else if(data > node.data)
+        return this.search(node.right, data);
+      // if data is equal to the node data return node
+      else
+        return node;
+    }
+
+
+  
+    // function to be implemented
+    // remove(data)
+                  
+    // Helper function
+    // findMinNode()
+    // getRootNode()
+    // inorder(node)
+    // preorder(node)               
+    // postorder(node)
+}
+```
+
+Example to create a BinarySearchTree class and test the functions:
+
+```
+// create an object for the BinarySearchTree
+var BST = new BinarySearchTree();
+  
+// Inserting nodes to the BinarySearchTree
+BST.insert(15);
+BST.insert(25);
+BST.insert(10);
+BST.insert(7);
+BST.insert(22);
+BST.insert(17);
+BST.insert(13);
+BST.insert(5);
+BST.insert(9);
+BST.insert(27);
+                          
+//          15
+//         /  \
+//        10   25
+//       / \   / \
+//      7  13 22  27
+//     / \    /
+//    5   9  17 
+```
+
+<br>
+<br>
+
+<a name="Q13"/>
+
+### Implement a Stack class in JavaScript.
+
+```
+// Stack class
+class Stack {
+
+	// Array is used to implement stack
+	constructor()
+	{
+		this.items = [];
+	}
+  
+  push(element)
+  {
+    // push element into the items
+    this.items.push(element);
+  }
+  
+  pop()
+  {
+    // return top most element in the stack and removes it from the stack Underflow if stack is empty
+    if (this.items.length == 0)
+      return "Underflow";
+    return this.items.pop();
+  }
+  
+  peek()
+  {
+    // return the top most element from the stack but does'nt delete it.
+    return this.items[this.items.length - 1];
+  }
+  
+  isEmpty()
+  {
+    // return true if stack is empty
+    return this.items.length == 0;
+  }
+  
+  printStack()
+  {
+    var str = "";
+    for (var i = 0; i < this.items.length; i++)
+      str += this.items[i] + " ";
+    return str;
+  }
+}
+```
+
+Example to create a Stack class and test the functions:
+
+```
+// creating object for stack class
+var stack = new Stack();
+
+// testing isEmpty and pop on an empty stack
+
+// returns false
+console.log(stack.isEmpty());
+
+// returns Underflow
+console.log(stack.pop());
+
+// Adding element to the stack
+stack.push(10);
+stack.push(20);
+stack.push(30);
+
+// Printing the stack element
+// prints [10, 20, 30]
+console.log(stack.printStack());
+
+// returns 30
+console.log(stack.peek());
+
+// returns 30 and remove it from stack
+console.log(stack.pop());
+
+// returns [10, 20]
+console.log(stack.printStack());
+```
+
+<br>
+<br>
+
+<a name="Q14"/>
+
+### Implement a Queue class in JavaScript.
+
+```
+// Queue class
+class Queue
+{
+	// Array is used to implement a Queue
+	constructor()
+	{
+		this.items = [];
+	}
+	
+  enqueue(element)
+  {	
+    // adding element to the queue
+    this.items.push(element);
+  }
+  
+  dequeue()
+  {
+      // removing element from the queue; returns underflow when called  on empty queue
+      if(this.isEmpty())
+          return "Underflow";
+      return this.items.shift();
+  }
+  
+  front()
+  {
+      // returns the Front element of the queue without removing it.
+      if(this.isEmpty())
+          return "No elements in Queue";
+      return this.items[0];
+  }
+  
+  isEmpty()
+  {
+      // return true if the queue is empty.
+      return this.items.length == 0;
+  }
+  
+  printQueue()
+  {
+      var str = "";
+      for(var i = 0; i < this.items.length; i++)
+          str += this.items[i] +" ";
+      return str;
+  }
+}
+```
+
+Example to create a Queue class and test the functions:
+
+```
+// creating object for queue class
+var queue = new Queue();
+			
+
+// Testing dequeue and pop on an empty queue returns Underflow
+console.log(queue.dequeue());
+
+// returns true
+console.log(queue.isEmpty());
+
+// Adding elements to the queue => queue contains [10, 20, 30, 40, 50]
+queue.enqueue(10);
+queue.enqueue(20);
+queue.enqueue(30);
+queue.enqueue(40);
+queue.enqueue(50);
+queue.enqueue(60);
+
+// returns 10
+console.log(queue.front());
+
+// removes 10 from the queue => queue contains [20, 30, 40, 50, 60]
+console.log(queue.dequeue());
+
+// returns 20
+console.log(queue.front());
+
+// removes 20 => queue contains [30, 40, 50, 60]
+console.log(queue.dequeue());
+
+// prints [30, 40, 50, 60]
+console.log(queue.printQueue());
+```
+
+<br>
+<br>
+
+<a name="Q15"/>
+
+### Implement a LinkedList class in JavaScript.
+
+```
+// User defined class node
+class Node {
+	// constructor
+	constructor(element)
+	{
+		this.element = element;
+		this.next = null
+	}
+}
+```
+
+```
+class LinkedList {
+	constructor()
+	{
+		this.head = null;
+		this.size = 0;
+	}
+  
+  // adds an element at the end of list
+  add(element)
+  {
+    // creates a new node
+    var node = new Node(element);
+
+    // to store current node
+    var current;
+
+    // if list is Empty add the element and make it head
+    if (this.head == null)
+      this.head = node;
+    else {
+      current = this.head;
+
+      // iterate to the end of the list
+      while (current.next) {
+        current = current.next;
+      }
+
+      // add node
+      current.next = node;
+    }
+    this.size++;
+  }
+  
+  // finds the index of element
+  indexOf(element)
+  {
+    var count = 0;
+    var current = this.head;
+
+    // iterae over the list
+    while (current != null) {
+      // compare each element of the list with given element
+      if (current.element === element)
+        return count;
+      count++;
+      current = current.next;
+    }
+
+    // not found
+    return -1;
+  }
+  
+  // prints the list items
+  printList()
+  {
+    var curr = this.head;
+    var str = "";
+    while (curr) {
+      str += curr.element + " ";
+      curr = curr.next;
+    }
+    console.log(str);
+  }
+  
+  // gives the size of the list
+  size_of_list()
+  {
+    console.log(this.size);
+  }
+  
+  // checks the list for empty
+  isEmpty()
+  {
+    return this.size == 0;
+  }
+
+	// functions to be implemented
+	// insertAt(element, location)
+	// removeFrom(location)
+	// removeElement(element)
+}
+```
+
+Example to create a LinkedList class and test the functions:
+
+```
+// creating an object for the Linkedlist class
+var ll = new LinkedList();
+ 
+// testing isEmpty on an empty list returns true
+console.log(ll.isEmpty());
+ 
+// adding element to the list
+ll.add(10);
+ 
+// prints 10
+ll.printList();
+ 
+// returns 1
+console.log(ll.size_of_list());
+ 
+// adding more elements to the list
+ll.add(20);
+ll.add(30);
+ll.add(40);
+ll.add(50);
+ 
+// returns 10 20 30 40 50
+ll.printList();
+ 
+// prints 50 from the list
+console.log("is element removed ?" + ll.removeElement(50));
+ 
+// prints 10 20 30 40
+ll.printList();
+ 
+// returns 3
+console.log("Index of 40 " + ll.indexOf(40));
+```
+
+<br>
+<br>
+
+<a name="Q16"/>
+
+### How do we compare two objects in JavaScript.
+
+Works when the order of the objects are the same.
+```
+ x = {a: 1, b: 2};
+ y = {a: 1, b: 2};
+ 
+ JSON.stringify(obj1) === JSON.stringify(obj2) 
+ ```
+ 
+ But when the order isn't the same.
+ ```
+var compareObjects = function(o1, o2){
+  for(var p in o1){
+      if(o1.hasOwnProperty(p)){
+          if(o1[p] !== o2[p]){
+              return false;
+          }
+      }
+  }
+  for(var p in o2){
+      if(o2.hasOwnProperty(p)){
+          if(o1[p] !== o2[p]){
+              return false;
+          }
+      }
+  }
+  return true;
+};
+```
+
+<br>
+<br>
+
+<a name="Q17"/>
+
+### Implement a function to return the intersection of two arrays.
+
+Example 1:
+  Input: nums1 = [1,2,2,1], nums2 = [2,2]
+  Output: [2]
+
+Example 2:
+  Input: nums1 = [4,9,5], nums2 = [9,4,9,8,4]
+  Output: [9,4]
+  Explanation: [4,9] is also accepted.
+
+```
+var intersection = function(nums1, nums2) {
+    nums1 = [...new Set(nums1)];
+    nums2 = [...new Set(nums2)];
+    nums1.sort((a, b) => a - b);
+    nums2.sort((a, b) => a - b);
+    return nums1.filter(value => nums2.includes(value));
+};
+```
+
+<br>
+<br>
+
+<a name="Q18"/>
+
+### Explain Prototype in JavaScript with an example.
+
+Prototypes are the mechanism by which JavaScript objects inherit features from one another.
+
+A prototype object is the shared space of a class instances. When any property of method of class is being accessed, JS interpreter first lookup that property in that object if it is not available, then it lookup into its prototype, if it is not there, then lookup into its parent’s prototype and so on.
+
+Every object has ```__proto__``` property pronounced as “dunder proto” which holds reference of prototype object.
+
+```
+function Person(fName, lName) {
+  this.firstName = fName;
+  this.lastName = lName;
+}
+```
+Using the prototype object:
+
+```
+Person.prototype.getFullName = function () {
+  return this.firstName + ' ' + this.lastName;
+}
+```
+Create an instance of Person:
+
+```
+var p1 = new Person('Rahul','Akarapu');
+```
+In the above example, method getFullName is created on prototype of Person. When we try to access p1.getFullName(), JS engine first try to access that property on that object, as it is not available on p1, it goes to __proto__ and try to access that property, once JS engine found getFullName, it execute it in that context.
+
+```
+p1.hasOwnProperty('firstName');  // Returns true
+p1.hasOwnProperty('lastName');   // Returns true
+p1.hasOwnProperty('getFullName') // Returns false
+```
+In the above example, p1 has its own properties firstName and lastName as they are exist on that object, but it doesn’t has method getFullName as it is not exist on that object but exist on its prototype.
+
+<br>
+<br>
+
+<a name="Q19"/>
+
+### Explain Inheritance, Classical Inheritance, & Prototypal Inhertiance in JavaScript with an example.
+
+#### Inheritance basics
+Inheritance is inheriting features of one class by another class. Inheritance supports reusability, when we want to create new class, when there is another class with some features, we create another class which derives from that class and add extra features over it.
+
+#### Inheritance in JavaScript
+JavaScript supports both, classical inheritance and prototypal inheritance. It follows same procedure as other Object oriented supported languages follows. JavaScript only supports single and multi-level inheritance.
+
+Lets try with following example.
+
+#### Problem statement:
+Person is the base class which has two properties, firstName and lastName of the person. It also has a method getFullName which returns fitstName and lastName of the person.
+Employee is the class which is inherited from Person class and has property empId and a method getEmpInfo which returns an array having values [empId, firstName, lastName].
+
+Now, lets implement this scenario in JavaScript.
+
+Create Person as base class:
+```
+function Person(fName, lName) {
+  this.firstName = fName;
+  this.lastName = lName;
+}
+```
+
+Create methods on prototype of the Person class:
+```
+Person.prototype.getFullName = function () {
+  return this.firstName + ' ' + this.lastName;
+}
+```
+
+Create a child Employee class and call its base class with required parameters:
+```
+function Employee(fName, lName, eId) {
+  Person.call(this, fName, lName);
+  this.empId = eId;
+}
+```
+
+In the above example, we are executing constructor of Person class from the constructor function of Employee class in Employee class’s scope. It is similar to calling super.
+
+Inherit prototype object. Create prototype object for Employee class from Person class:
+```
+Employee.prototype = Object.create(Person.prototype);
+```
+Here we are creating new object from Person.prototype and assigning it to prototype object of Employee class.
+
+We recreated prototype object for Employee class, but here we missed something. What?? We copied prototype from Person class and hence we lost constructor function of Employee class. Reassign constructor function.
+```
+Employee.prototype.constructor = Employee;
+```
+
+Now we are ready to add methods over the prototype of Employee class. Add methods on prototype of child class:
+```
+Employee.prototype.getEmpInfo = function () {
+  return [this.empId, this.firstName, this.lastName];
+}
+```
+
+Now we can create instance of Employee class and can access properties and methods of Person class too from that instance.
+```
+var e1 = new Employee('Rahul', 'Akarapu', 123);
+e1.getFullName();
+e1.getEmpInfo();
+```
+
+<br>
+<br>
+
+<a name="Q20"/>
+
+### What are classes in JavaScript. Explain with an example.
+
+Classes are a template for creating objects. They encapsulate data with code to work on that data. Classes in JS are built on prototypes but also have some syntax and semantics that are not shared with ES5 class-like semantics.
+
+```
+class Rectangle {
+  constructor(height, width) {
+    this.height = height;
+    this.width = width;
+  }
+}
+```
+
+An important difference between function declarations and class declarations is that function declarations are hoisted and class declarations are not. You first need to declare your class and then access it.
