@@ -9,7 +9,9 @@
 [apply()](#Q6)    
 [Do setTimeOut and setInterval always call the function associated with them?](#Q7)   
 [null vs undefined](#Q8)    
-[What are classes in JavaScript?](#Q9)    
+[What are classes in JavaScript?](#Q9)   
+[Explain debouncing in JavaScript.](#Q10)   
+[Explain throttling in JavaScript.](#Q11)
 
 
 <a name="Q1"/>
@@ -319,4 +321,75 @@ class Bike{
     return this.model + ' bike has' + this.color + ' color';
   }
 }
+```
+
+<br>
+<br>
+
+<a name="Q10"/>
+
+### Explain debouncing in JavaScript.
+
+The ```debounce()``` function forces a function to wait a certain amount of time before running again. The function is built to limit the number of times a function is called. Events such as scrolling, mouse movement, and keypress bring great overhead with them if they are captured every single time they fire. The function aims to reduce overhead by preventing a function from being called several times in succession.
+
+The following implementation of ```debounce``` returns a function that, as long as it continues to be invoked, will not be triggered. The function will be called after it stops being called for d milliseconds.
+
+```
+<input type="text" onkeyup="returnedFunction()"/>
+```
+
+```
+// Debouncing in Javascript
+let counter = 0;
+const getData = () => {
+  // calls an API and gets Data
+  console.log("Fetching Data ..", counter++);
+}
+
+const debounce = function (fn, d) {
+  let timer;
+  return function () {
+    let context = this, args = arguments;
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      getData.apply(context, arguments);
+    }, d);
+  }
+}
+
+const returnedFunction = debounce(getData, 300);
+```
+
+<br>
+<br>
+
+<a name="Q11"/>
+
+### Explain throttling in JavaScript.
+
+Throttling is a technique in which, no matter how many times the user fires the event, the attached function will be executed only once in a given time interval.
+
+
+```
+const loggerFunc = () => {
+  console.count("Throttled Function");
+}
+
+const throttle = (fn, limit) => {
+  let flag = true;
+  return function(){
+    let context = this, args = arguments;
+    if(flag){
+      fn.apply(context, args);
+      flag = false;
+      setTimeout(() => {
+        flag=true;
+      }, limit);
+    }
+  }
+}
+
+const returnedFunction = throttle(loggerFunc, 1000);
+
+window.addEventListener("resize",returnedFunction);
 ```
