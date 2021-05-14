@@ -6,7 +6,7 @@
 [What is Hoisting in JavaScript?](#Q3)   
 [bind()](#Q4)    
 [call() and apply()](#Q5)    
-[apply()](#Q6)    
+[instanceOf](#Q6)    
 [Do setTimeOut and setInterval always call the function associated with them?](#Q7)   
 [null vs undefined](#Q8)    
 [What are classes in JavaScript?](#Q9)   
@@ -303,9 +303,54 @@ The main differences between ```bind()``` and ```call()```/```apply()``` is that
 
 <a name="Q6"/>
 
-### apply()
+### instanceOf
 
-When calling `setTimeout` or `setInterval`, a timer thread in the browser starts counting down and when time up puts the callback function in JavaScript thread's execution stack. The callback function is not executed before other functions above it in the stack finishes. So if there are other time-consuming functions being executed when time up, the callback of `setTimeout` will not finish in time.
+```instanceOf``` checks the current object and returns true if the object is of the specified object type. The Left Hand Side (LHS) operand is the actual object being tested to the Right Hand Side (RHS) operand which is the actual constructor of a class.
+
+Example:
+```
+var color1 = new String("green");
+color1 instanceof String; // returns true
+var color2 = "coral"; //no type specified
+color2 instanceof String; // returns false (color2 is not a String object)
+```
+
+```instanceof``` evaluates to true if the object inherits from the class's prototype:
+```
+var p = new Person("Jon");
+p instanceof Person
+```
+That is ```p instanceof Person``` is ```true``` since ```p``` inherits from ```Person.prototype```.
+
+Use ```instanceof``` for custom types:
+```
+var ClassFirst = function () {};
+var ClassSecond = function () {};
+var instance = new ClassFirst();
+typeof instance; // object
+typeof instance == 'ClassFirst'; // false
+instance instanceof Object; // true
+instance instanceof ClassFirst; // true
+instance instanceof ClassSecond; // false
+```
+
+Use ```typeof``` for simple built in types:
+```
+'example string' instanceof String; // false
+typeof 'example string' == 'string'; // true
+
+'example string' instanceof Object; // false
+typeof 'example string' == 'object'; // false
+
+true instanceof Boolean; // false
+typeof true == 'boolean'; // true
+
+99.99 instanceof Number; // false
+typeof 99.99 == 'number'; // true
+
+function() {} instanceof Function; // true
+typeof function() {} == 'function'; // true
+```
 
 <br>
 <br>
