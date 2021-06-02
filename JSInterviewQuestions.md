@@ -20,7 +20,11 @@
 [Implement a function that returns the intersection of two arrays.](#Q17)   
 [Explain Prototype in JavaScript with an example.](#Q18)   
 [Explain Inheritance, Classical Inheritance, & Prototypal Inhertiance in JavaScript with an example.](#Q19)   
-[What are classes in JavaScript. Explain with an example.](#Q20)
+[What are classes in JavaScript. Explain with an example.](#Q20)   
+[Explain Inhertiance in JavaScript.](#Q21)   
+[Explain Polymorphism in JavaScript.](#Q22)   
+[Explain Encapsulation in JavaScript.](#Q23)   
+[Explain Abstraction in JavaScript.](#Q24)   	
 
 
 
@@ -1113,3 +1117,33 @@ class Rectangle {
 ```
 
 An important difference between function declarations and class declarations is that function declarations are hoisted and class declarations are not. You first need to declare your class and then access it.
+
+<br>
+<br>
+
+<a name="Q21"/>
+
+### Explain Inhertiance in JavaScript.
+
+<br>
+<br>
+
+<a name="Q22"/>
+
+### Explain Polymorphism in JavaScript.
+
+<br>
+<br>
+
+<a name="Q23"/>
+
+### Explain Encapsulation in JavaScript.
+
+<br>
+<br>
+
+<a name="Q24"/>
+
+### Explain Abstraction in JavaScript.
+
+
